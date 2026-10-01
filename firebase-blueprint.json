@@ -1,0 +1,61 @@
+{
+  "entities": {
+    "EmailSubscription": {
+      "title": "Email Subscription",
+      "description": "User email subscription to receive alerts when new matching government schemes are launched",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Subscriber email address"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID if authenticated or empty"
+        },
+        "state": {
+          "type": "string",
+          "description": "Applicant state of residence"
+        },
+        "occupation": {
+          "type": "string",
+          "description": "Applicant occupation"
+        },
+        "age": {
+          "type": "number",
+          "description": "Applicant age"
+        },
+        "income": {
+          "type": "number",
+          "description": "Applicant annual family income in INR"
+        },
+        "category": {
+          "type": "string",
+          "description": "Social category (General, OBC, SC, ST, EWS)"
+        },
+        "gender": {
+          "type": "string",
+          "description": "Gender of applicant"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp of subscription"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "unsubscribed"],
+          "description": "Subscription active status"
+        }
+      },
+      "required": ["email", "state", "createdAt", "status"]
+    }
+  },
+  "firestore": {
+    "/subscriptions/{subscriptionId}": {
+      "schema": "EmailSubscription",
+      "description": "Stores user email alerts subscriptions for scheme updates"
+    }
+  }
+}

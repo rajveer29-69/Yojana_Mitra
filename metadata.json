@@ -1,0 +1,6 @@
+{
+  "name": "YojanaMitra - Government Schemes Finder",
+  "description": "Find central and state government schemes in under 2 minutes. Instant rule-based eligibility check, plain Hindi & English explanations, document checklists, and official application guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

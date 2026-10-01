@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   Sophisticated Navy-Based Charcoal Dark Mode Color Palette
+   Canvas:       #070c18 (Deepest rich midnight navy canvas)
+   Surface/Card: #0d172c (Primary card container surface)
+   Elevated:     #14203a (Elevated card, form container, modal header)
+   Interactive:  #1a2846 (Input boxes, sub-cards, inactive pills, chips)
+   Borders:      rgba(59, 80, 125, 0.5) (Refined, crisp navy-slate border)
+   High-Contrast Typography:
+     Headings:   #ffffff / #f8fafc
+     Body:       #cbd5e1 (slate-300)
+     Secondary:  #94a3b8 (slate-400)
+   ========================================================================== */
+
+@theme {
+  --color-navy-950: #070c18;
+  --color-navy-900: #0d172c;
+  --color-navy-850: #101b33;
+  --color-navy-800: #14203a;
+  --color-navy-750: #1a2846;
+  --color-navy-700: #24355a;
+  --color-navy-600: #3b507d;
+  --color-navy-500: #64748b;
+  --color-navy-400: #94a3b8;
+  --color-navy-300: #cbd5e1;
+  --color-navy-200: #e2e8f0;
+  --color-navy-100: #f1f5f9;
+  --color-navy-50: #f8fafc;
+}
+
+/* Base Body in Dark Mode */
+html.dark,
+html.dark body,
+.dark body {
+  background-color: #070c18 !important;
+  color: #f8fafc !important;
+}
+
+/* ==========================================================================
+   Dark Mode Surface & Background Normalization
+   Eliminates any unintended white or light-gray patches when toggling dark mode
+   ========================================================================== */
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Default card surfaces in dark mode */
+.dark .bg-white:not([data-keep-light]):not([class*="dark:bg-"]) {
+  background-color: #0d172c;
+}
+
+/* Canvas / root background in dark mode */
+.dark .bg-stone-50:not([data-keep-light]):not([class*="dark:bg-"]) {
+  background-color: #070c18;
+}
+
+/* Secondary light surfaces / pill tracks in dark mode */
+.dark .bg-stone-100:not([data-keep-light]):not([class*="dark:bg-"]) {
+  background-color: #14203a;
+}
+
+/* Tertiary borders and interactive tracks in dark mode */
+.dark .bg-stone-200:not([data-keep-light]):not([class*="dark:bg-"]) {
+  background-color: #1a2846;
+}
+
+/* Subtle default dark borders */
+.dark .border-stone-200:not([class*="dark:border-"]),
+.dark .border-stone-300:not([class*="dark:border-"]) {
+  border-color: rgba(59, 80, 125, 0.45);
+}
+
+/* Typography contrast assurance in dark mode */
+.dark .text-stone-900:not([class*="dark:text-"]),
+.dark .text-stone-800:not([class*="dark:text-"]) {
+  color: #f8fafc;
+}
+
+.dark .text-stone-700:not([class*="dark:text-"]) {
+  color: #cbd5e1;
+}
+
+.dark .text-stone-600:not([class*="dark:text-"]),
+.dark .text-stone-500:not([class*="dark:text-"]) {
+  color: #94a3b8;
+}
+
+/* Form input styling in dark mode */
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+.dark select,
+.dark textarea {
+  background-color: #14203a !important;
+  color: #f8fafc !important;
+  border-color: rgba(71, 95, 145, 0.55) !important;
+}
+
+.dark input::placeholder,
+.dark select::placeholder,
+.dark textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.35) !important;
+}
+
+/* Dark mode select dropdown options */
+.dark select option {
+  background-color: #14203a !important;
+  color: #f8fafc !important;
+}
+
+/* Refined, professional card elevation in dark mode */
+.dark .animate-scheme-card {
+  box-shadow: 0 4px 24px -2px rgba(2, 6, 23, 0.65), 0 0 0 1px rgba(59, 80, 125, 0.45);
+}
+
+.dark .animate-scheme-card:hover {
+  box-shadow: 0 16px 36px -4px rgba(2, 6, 23, 0.85), 0 0 0 1px rgba(245, 158, 11, 0.5);
+}
+
+/* Smooth customized scrollbars for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #070c18;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #24355a;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3b507d;
+}
+
+/* Animation keyframes */
+@keyframes schemeCardEntry {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-scheme-card {
+  animation: schemeCardEntry 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scheme-card {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

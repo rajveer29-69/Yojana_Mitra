@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidSubscription(data) {
+      return data.keys().hasAll(['email', 'state', 'createdAt', 'status'])
+        && data.keys().hasOnly(['email', 'userId', 'state', 'occupation', 'age', 'income', 'category', 'gender', 'createdAt', 'status'])
+        && data.email is string
+        && data.email.size() >= 3
+        && data.email.size() <= 200
+        && data.state is string
+        && data.state.size() <= 100
+        && data.status in ['active', 'unsubscribed']
+        && (!('userId' in data) || data.userId is string)
+        && (!('occupation' in data) || data.occupation is string)
+        && (!('age' in data) || data.age is number)
+        && (!('income' in data) || data.income is number)
+        && (!('category' in data) || data.category is string)
+        && (!('gender' in data) || data.gender is string);
+    }
+
+    match /subscriptions/{subscriptionId} {
+      // Any citizen can subscribe for government scheme alerts
+      allow create: if isValidId(subscriptionId) && isValidSubscription(incoming());
+
+      // Only authenticated owner can read their subscription record (PII isolation)
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        (request.auth.token.email_verified == true && resource.data.email == request.auth.token.email)
+      );
+
+      // Authenticated user can update only their own subscription status
+      allow update: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        (request.auth.token.email_verified == true && resource.data.email == request.auth.token.email)
+      ) && isValidSubscription(incoming())
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status']);
+
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
